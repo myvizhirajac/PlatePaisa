@@ -269,14 +269,44 @@ return "https://www.google.com/maps/search/?api=1&query="+
 encodeURIComponent(r.name+" "+r.area+" Bengaluru");
 }
 
-function photoUrl(r){
-let category=2;
-if(/dosa|breakfast|south indian|snacks/i.test(r.cuisine))category=0;
-else if(/biryani|andhra|non-veg/i.test(r.cuisine))category=1;
-else if(/burger/i.test(r.cuisine))category=3;
-else if(/continental|dining|italian|brewpub/i.test(r.cuisine))category=4;
-else if(/dessert|ice cream|sweets/i.test(r.cuisine))category=5;
-return "https://images.unsplash.com/"+photos[category]+"?auto=format&fit=crop&w=800&q=75";
+
+/* OOTA 2.3 — Restaurant photo mapping */
+
+const restaurantPhotos = {
+  1: "",  // Vidyarthi Bhavan
+  2: "",  // CTR Shri Sagar
+  3: "",  // Meghana Foods
+  4: "",  // MTR
+  5: "",  // The Rameshwaram Cafe
+  6: "",  // Brahmins Coffee Bar
+  7: "",  // Veena Stores
+  8: "",  // Taaza Thindi
+  9: "",  // Empire Restaurant
+  10: "", // Nagarjuna
+  11: "", // Truffles
+  12: "", // Toit
+  13: "", // Windmills Craftworks
+  14: "", // Karavalli
+  15: "", // The Only Place
+  16: "", // Corner House
+  17: "", // Anand Sweets and Savouries
+  18: "", // Sattvam
+  19: "", // Chianti
+  20: ""  // Burma Burma
+};
+
+function photoUrl(r) {
+  const customPhoto = restaurantPhotos[r.id];
+
+  if (customPhoto) {
+    return customPhoto;
+  }
+
+  const fallbackIndex = (r.id - 1) % photos.length;
+
+  return "https://images.unsplash.com/" +
+    photos[fallbackIndex] +
+    "?auto=format&fit=crop&w=900&q=80";
 }
 
 let saved=[];
