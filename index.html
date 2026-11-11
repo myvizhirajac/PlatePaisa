@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#183c32">
+<meta name="description" content="Discover Bengaluru restaurants for every budget with Oota.">
+<title>Oota — Bengaluru Food Finder</title>
+<style>
+:root{--green:#183c32;--lime:#d8ed92;--paper:#f7f8f2;--muted:#69736c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--green);font-family:Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{background:white;border-bottom:1px solid #e2e8dc;padding:18px 6%;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:34px;font-weight:900;letter-spacing:-2px}
+.logo span{color:#86a75c}
+header small{color:var(--muted)}
+.hero{background:var(--green);color:white;padding:55px 6%}
+.hero-inner{max-width:1100px;margin:auto}
+.hero h1{font-size:clamp(38px,6vw,65px);line-height:1.1;margin:15px 0}
+.hero h1 em{color:var(--lime);font-style:normal}
+.hero p{color:#dce9df;line-height:1.7}
+.search{background:white;padding:20px;border-radius:15px;display:flex;gap:10px;margin-top:28px}
+.search input{flex:1;min-width:0;border:0;outline:0}
+.btn{background:var(--lime);border:0;padding:13px 20px;border-radius:9px;font-weight:bold;color:var(--green)}
+main{max-width:1200px;margin:35px auto;padding:0 20px}
+h2{font-size:27px}
+.subtitle{color:var(--muted);font-size:14px}
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+.filters select,.filters button{background:white;border:1px solid #dce3d8;border-radius:9px;padding:12px;max-width:100%}
+.notice{background:#edf1e5;border-radius:10px;padding:15px;font-size:13px;line-height:1.6;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:white;border:1px solid #e2e7df;border-radius:16px;overflow:hidden}
+.photo{height:175px;background-position:center;background-size:cover;position:relative;background-color:#dbe6d2}
+.tag{position:absolute;top:12px;left:12px;background:white;border-radius:6px;padding:7px;font-size:10px;font-weight:bold}
+.save{position:absolute;right:12px;top:10px;border:0;background:white;border-radius:50%;height:35px;width:35px;font-size:22px}
+.card-body{padding:18px}
+.card h3{margin:0 0 8px;font-size:20px}
+.meta{color:var(--muted);font-size:13px;line-height:1.6}
+.price{font-size:19px;font-weight:bold;margin:15px 0 5px}
+.insight{background:#f1f5ea;padding:13px;border-radius:9px;font-size:13px;line-height:1.6;margin:15px 0}
+.details{width:100%;border:0;background:var(--green);color:white;border-radius:9px;padding:12px;font-weight:bold}
+footer{text-align:center;padding:35px 15px;margin-top:45px;border-top:1px solid #dce3d6;color:var(--muted);font-size:13px}
+dialog{border:0;border-radius:17px;padding:25px;width:calc(100% - 25px);max-width:550px;max-height:85vh;overflow:auto;color:var(--green)}
+dialog::backdrop{background:#10291fc9}
+.close{float:right;border:0;background:#eef1e9;border-radius:50%;font-size:22px;width:35px;height:35px}
+.menuitem{display:flex;justify-content:space-between;gap:15px;padding:12px 0;border-bottom:1px solid #e4e8df}
+.note{font-size:12px;color:var(--muted);line-height:1.6}
+.links a{display:inline-block;background:#edf2e5;padding:11px;margin:5px 5px 5px 0;border-radius:8px;color:var(--green);text-decoration:none;font-size:13px;font-weight:bold}
+.empty{text-align:center;padding:50px;grid-column:1/-1}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){
+header{padding:15px 20px}
+.hero{padding:38px 20px}
+.search{flex-direction:column}
+.search input{padding:12px 4px}
+.grid{grid-template-columns:1fr}
+.photo{height:210px}
+.filters select{flex:1}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">oota<span>·</span></div>
+<small>📍 Bengaluru, India</small>
+</header>
+
+<section class="hero">
+<div class="hero-inner">
+<small>BIG FLAVOURS. EVERY BUDGET.</small>
+<h1>Good food.<br>Great finds.<br><em>Your kind of budget.</em></h1>
+<p>From crispy dosas to delicious biryani and fine dining. Discover your next favourite meal in Bengaluru.</p>
+<form class="search" id="searchForm">
+<input id="query" aria-label="Search restaurants" placeholder="Search dosa, biryani, Indiranagar...">
+<button class="btn" type="submit">Find food ↗</button>
+</form>
+</div>
+</section>
+
+<main id="explore">
+<h2>Explore Bengaluru's food scene 🍛</h2>
+<p class="subtitle" id="count">Discover restaurants across every budget.</p>
+
+<div class="filters">
+<select id="area" aria-label="Neighbourhood">
+<option value="">All neighbourhoods</option>
+</select>
+<select id="budget" aria-label="Budget">
+<option value="99999">All budgets</option>
+<option value="200">Under ₹200</option>
+<option value="500">Under ₹500</option>
+<option value="1000">Under ₹1,000</option>
+<option value="premium">Premium ₹1,000+</option>
+</select>
+<select id="diet" aria-label="Diet">
+<option value="">All food</option>
+<option value="veg">Vegetarian only</option>
+</select>
+<select id="sort" aria-label="Sort">
+<option value="default">Recommended</option>
+<option value="price">Price: Low to high</option>
+<option value="name">Name: A to Z</option>
+</select>
+<button id="savedButton">♡ Saved</button>
+<button id="reset">Reset</button>
+</div>
+
+<div class="notice">
+<strong>Oota Public Beta — 20 restaurants.</strong>
+Restaurant budgets are indicative, and most new listings are awaiting menu and review verification. Photos are illustrative. Always confirm current prices, availability and operating hours before visiting.
+</div>
+
+<div id="results" class="grid"></div>
+</main>
+
+<footer>
+<strong>oota·</strong>
+<p>One city. Every budget. Every craving. ❤️</p>
+<p>Bengaluru food discovery · Public Beta</p>
+</footer>
+
+<dialog id="modal">
+<button class="close" id="closeModal" aria-label="Close">×</button>
+<div id="modalContent"></div>
+</dialog>
+
+<script>
+const names=[
+["Vidyarthi Bhavan","Basavanagudi","South Indian · Breakfast",200,1],
+["CTR Shri Sagar","Malleshwaram","South Indian · Breakfast",200,1],
+["Meghana Foods","Residency Road","Andhra · Biryani",500,0],
+["MTR (Mavalli Tiffin Rooms)","Lalbagh Road","South Indian · Meals",350,1],
+["The Rameshwaram Cafe","Indiranagar","South Indian · Breakfast",350,1],
+["Brahmins Coffee Bar","Basavanagudi","South Indian · Breakfast",150,1],
+["Veena Stores","Malleshwaram","South Indian · Snacks",150,1],
+["Taaza Thindi","Jayanagar","South Indian · Breakfast",150,1],
+["Empire Restaurant","Shivajinagar","North Indian · Non-veg",450,0],
+["Nagarjuna","Residency Road","Andhra · Meals",550,0],
+["Truffles","St. Marks Road","Burgers · Cafe",650,0],
+["Toit","Indiranagar","Brewpub · Continental",1500,0],
+["Windmills Craftworks","Whitefield","Contemporary · Dining",2000,0],
+["Karavalli","Residency Road","Coastal Indian · Fine dining",2200,0],
+["The Only Place","Museum Road","Steakhouse · Continental",1200,0],
+["Corner House","Residency Road","Desserts · Ice cream",250,1],
+["Anand Sweets and Savouries","Koramangala","Sweets · Snacks",350,1],
+["Sattvam","Sadashivanagar","Vegetarian · Buffet",1200,1],
+["Chianti","Indiranagar","Italian · Dining",1400,0],
+["Burma Burma","Indiranagar","Burmese · Vegetarian",1300,1]
+];
+
+const menus={
+0:[["Masala dosa","₹90"],["Idli","₹50"],["Filter coffee","₹24"]],
+1:[["Benne masala dosa","₹110"],["Set dosa","₹100"],["Coffee","₹40"]]
+};
+
+const menuSources={
+0:"https://vidyarthibhavanonline.com/menu",
+1:"https://www.swiggy.com/city/bangalore/ctr-shri-sagar-since-1920-malleshwaram-rest399535",
+2:"https://www.district.in/dining/bangalore/meghana-foods-residency-road"
+};
+
+const reviews={
+0:"Known for its traditional dosa and heritage dining experience. Expect crowds at popular hours.",
+1:"Known for crisp benne dosa and a traditional breakfast experience. Peak-time queues are worth planning for.",
+2:"Popular for Andhra-style biryani, particularly boneless chicken biryani. Service and waiting time can vary during busy periods."
+};
+
+const videos={
+1:"https://www.youtube.com/watch?v=5c6PdX_IxGw"
+};
+
+const photos=[
+"photo-1630383249896-424e482df921",
+"photo-1563379091339-03246963d96c",
+"photo-1546833999-b9f581a1996d",
+"photo-1568901346375-23c9450c58cd",
+"photo-1517248135467-4c7edcad34c4",
+"photo-1563805042-7684c019e1cb"
+];
+
+const restaurants=names.map((n,i)=>({
+id:i+1,
+name:n[0],
+area:n[1],
+cuisine:n[2],
+price:n[3],
+veg:Boolean(n[4]),
+menu:menus[i]||[],
+menuUrl:menuSources[i]||"",
+review:reviews[i]||"Review analysis pending. Open customer reviews to assess food quality, service and value.",
+video:videos[i]||"",
+verifiedBudget:false
+}));
+
+const $=id=>document.getElementById(id);
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",
+'"':"&quot;","'":"&#39;"
+}[c]));
+}
+
+function mapsUrl(r){
+return "https://www.google.com/maps/search/?api=1&query="+
+encodeURIComponent(r.name+" "+r.area+" Bengaluru");
+}
+
+function photoUrl(r){
+let category=2;
+if(/dosa|breakfast|south indian|snacks/i.test(r.cuisine))category=0;
+else if(/biryani|andhra|non-veg/i.test(r.cuisine))category=1;
+else if(/burger/i.test(r.cuisine))category=3;
+else if(/continental|dining|italian|brewpub/i.test(r.cuisine))category=4;
+else if(/dessert|ice cream|sweets/i.test(r.cuisine))category=5;
+return "https://images.unsplash.com/"+photos[category]+"?auto=format&fit=crop&w=800&q=75";
+}
+
+let saved=[];
+try{
+const stored=JSON.parse(localStorage.getItem("ootaSaved")||"[]");
+if(Array.isArray(stored))saved=stored;
+}catch(e){}
+
+let savedOnly=false;
+
+const areas=[...new Set(restaurants.map(r=>r.area))].sort();
+$("area").innerHTML='<option value="">All neighbourhoods</option>'+
+areas.map(a=>'<option value="'+escapeHTML(a)+'">'+escapeHTML(a)+'</option>').join("");
+
+function render(){
+const query=$("query").value.trim().toLowerCase();
+const area=$("area").value;
+const budget=$("budget").value;
+const diet=$("diet").value;
+
+let rows=restaurants.filter(r=>{
+if(savedOnly&&!saved.includes(r.id))return false;
+if(query&&![
+r.name,r.area,r.cuisine,r.review
+].join(" ").toLowerCase().includes(query))return false;
+if(area&&r.area!==area)return false;
+if(budget==="premium"&&r.price<1000)return false;
+if(budget!=="premium"&&r.price>Number(budget))return false;
+if(diet==="veg"&&!r.veg)return false;
+return true;
+});
+
+if($("sort").value==="price")
+rows.sort((a,b)=>a.price-b.price);
+if($("sort").value==="name")
+rows.sort((a,b)=>a.name.localeCompare(b.name));
+
+$("count").textContent=rows.length+
+" of 20 restaurants"+(savedOnly?" · Saved favourites":"");
+
+$("savedButton").textContent=
+(savedOnly?"♥ Saved only":"♡ Saved")+" ("+saved.length+")";
+
+$("results").innerHTML=rows.length?rows.map(r=>`
+<article class="card">
+<div class="photo" style="background-image:url('${photoUrl(r)}')">
+<span class="tag">${r.veg?"VEGETARIAN":"FOOD DISCOVERY"}</span>
+<button class="save" data-save="${r.id}" aria-label="${saved.includes(r.id)?"Remove saved":"Save"} ${escapeHTML(r.name)}">${saved.includes(r.id)?"♥":"♡"}</button>
+</div>
+<div class="card-body">
+<h3>${escapeHTML(r.name)}</h3>
+<div class="meta">${escapeHTML(r.cuisine)}</div>
+<div class="meta">📍 ${escapeHTML(r.area)}, Bengaluru</div>
+<div class="price">Around ₹${r.price.toLocaleString("en-IN")}</div>
+<div class="meta">Indicative budget per person · not verified</div>
+<div class="insight">${escapeHTML(r.review)}</div>
+<button class="details" data-details="${r.id}">Menu, reviews & videos ↗</button>
+</div>
+</article>
+`).join(""):`
+<div class="empty">
+<h3>No matching restaurants</h3>
+<p>Try another budget, area or search.</p>
+<button class="btn" id="emptyReset">Show all</button>
+</div>`;
+
+const emptyReset=$("emptyReset");
+if(emptyReset)emptyReset.onclick=resetFilters;
+}
+
+function resetFilters(){
+$("query").value="";
+$("area").value="";
+$("budget").value="99999";
+$("diet").value="";
+$("sort").value="default";
+savedOnly=false;
+render();
+}
+
+function showDetails(id){
+const r=restaurants.find(x=>x.id===id);
+if(!r)return;
+
+const menuHTML=r.menu.length?
+r.menu.map(item=>`
+<div class="menuitem">
+<span>${escapeHTML(item[0])}</span>
+<strong>${escapeHTML(item[1])}</strong>
+</div>`).join("")+
+'<p class="note">Published online prices from earlier research. Prices may have changed or differ by ordering channel.</p>':
+'<p class="note">Menu items and prices are pending verification. No prices have been invented.</p>';
+
+const menuLink=r.menuUrl?
+`<a href="${r.menuUrl}" target="_blank" rel="noopener noreferrer">View menu source ↗</a>`:
+"";
+
+const videoHTML=r.video?
+`<a href="${r.video}" target="_blank" rel="noopener noreferrer">Watch independent food video ↗</a>`:
+'<p class="note">No verified video link has been added yet.</p>';
+
+$("modalContent").innerHTML=`
+<h2>${escapeHTML(r.name)}</h2>
+<p class="meta">📍 ${escapeHTML(r.area)}, Bengaluru</p>
+<p>${escapeHTML(r.cuisine)}</p>
+<h3>💰 Estimated budget</h3>
+<p>Around ₹${r.price.toLocaleString("en-IN")} per person</p>
+<p class="note">Indicative estimate only, not a verified meal price.</p>
+<h3>🍽️ Menu & prices</h3>
+${menuHTML}
+<div class="links">${menuLink}</div>
+<h3>⭐ Restaurant insights</h3>
+<div class="insight">${escapeHTML(r.review)}</div>
+<p class="note">Editorial overview, not an aggregate of live customer reviews. Ratings and review counts are not connected.</p>
+<div class="links">
+<a href="${mapsUrl(r)}" target="_blank" rel="noopener noreferrer">Read customer reviews ↗</a>
+</div>
+<h3>🎥 Restaurant videos</h3>
+<div class="links">${videoHTML}</div>
+<h3>📍 Visit restaurant</h3>
+<div class="links">
+<a href="${mapsUrl(r)}" target="_blank" rel="noopener noreferrer">Open Google Maps ↗</a>
+</div>
+<p class="note">Confirm branch location, hours and prices before visiting. Images are illustrative.</p>
+`;
+
+$("modal").showModal();
+}
+
+$("searchForm").addEventListener("submit",e=>{
+e.preventDefault();
+render();
+$("explore").scrollIntoView({behavior:"smooth"});
+});
+
+["area","budget","diet","sort"].forEach(id=>{
+$(id).addEventListener("change",render);
+});
+
+$("savedButton").onclick=()=>{
+savedOnly=!savedOnly;
+render();
+};
+
+$("reset").onclick=resetFilters;
+
+$("results").addEventListener("click",e=>{
+const save=e.target.closest("[data-save]");
+if(save){
+const id=Number(save.dataset.save);
+saved=saved.includes(id)?
+saved.filter(x=>x!==id):[...saved,id];
+try{
+localStorage.setItem("ootaSaved",JSON.stringify(saved));
+}catch(e){}
+render();
+return;
+}
+const details=e.target.closest("[data-details]");
+if(details)showDetails(Number(details.dataset.details));
+});
+
+$("closeModal").onclick=()=>$("modal").close();
+$("modal").addEventListener("click",e=>{
+if(e.target===$("modal"))$("modal").close();
+});
+
+render();
+</script>
+</body>
+</html>
