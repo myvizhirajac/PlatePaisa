@@ -60,6 +60,66 @@ header{padding:15px 20px}
 .photo{height:210px}
 .filters select{flex:1}
 }
+
+/* OOTA 2.2 — Restaurant profile styling */
+
+dialog {
+  border-radius: 22px;
+  padding: 26px;
+  max-width: 560px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.25);
+}
+
+dialog h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 10px 40px 12px 0;
+  color: #183c32;
+}
+
+dialog h3 {
+  font-size: 17px;
+  margin: 26px 0 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e9df;
+}
+
+dialog .insight {
+  background: #f0f5e9;
+  border-left: 4px solid #91ad68;
+  padding: 16px;
+  line-height: 1.7;
+}
+
+dialog .menuitem {
+  padding: 15px 0;
+  align-items: center;
+}
+
+dialog .menuitem strong {
+  color: #245a3d;
+  white-space: nowrap;
+}
+
+dialog .links a {
+  border-radius: 12px;
+  padding: 12px 15px;
+  line-height: 1.5;
+}
+
+dialog .close {
+  width: 42px;
+  height: 42px;
+}
+
+@media (max-width: 600px) {
+  dialog {
+    width: calc(100% - 20px);
+    max-height: 88vh;
+    padding: 22px;
+  }
+}
+
 </style>
 </head>
 <body>
