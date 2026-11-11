@@ -8,6 +8,184 @@
 <meta name="description" content="Discover Bengaluru restaurants for every budget with Oota.">
 <title>Oota — Bengaluru Food Finder</title>
 <style>
+  
+<style>
+/* OOTA 2.1 — Safe visual upgrade */
+:root {
+  --green:#183c32;
+  --lime:#d8ed92;
+  --paper:#f7f8f2;
+  --muted:#69736c;
+}
+
+html {
+  scroll-behavior:smooth;
+}
+
+body {
+  -webkit-font-smoothing:antialiased;
+}
+
+header {
+  box-shadow:0 2px 18px rgba(24,60,50,.05);
+}
+
+.hero {
+  background:linear-gradient(
+    135deg,#183c32 0%,#285746 100%
+  );
+}
+
+.hero h1 {
+  letter-spacing:-1.8px;
+}
+
+.search {
+  box-shadow:0 14px 40px rgba(0,0,0,.12);
+  border:1px solid #e4ebdf;
+}
+
+.search input:focus {
+  outline:2px solid #a5c579;
+  outline-offset:3px;
+}
+
+.btn,.details {
+  transition:transform .2s,background .2s;
+}
+
+.btn:active,.details:active {
+  transform:scale(.98);
+}
+
+.card {
+  border-radius:22px;
+  box-shadow:0 6px 22px rgba(24,60,50,.07);
+  transition:transform .2s,box-shadow .2s;
+}
+
+.card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 14px 32px rgba(24,60,50,.12);
+}
+
+.photo {
+  height:210px;
+}
+
+.card-body {
+  padding:21px;
+}
+
+.card h3 {
+  font-size:21px;
+  letter-spacing:-.5px;
+  line-height:1.3;
+}
+
+.price {
+  color:#245a3d;
+  font-size:22px;
+}
+
+.insight {
+  border-left:3px solid #8aa95c;
+  border-radius:10px;
+  background:#f2f6ed;
+}
+
+.details {
+  min-height:48px;
+  border-radius:12px;
+}
+
+.filters select,
+.filters button {
+  min-height:46px;
+  border-radius:12px;
+}
+
+.filters select:focus-visible,
+.filters button:focus-visible,
+.save:focus-visible,
+.details:focus-visible {
+  outline:3px solid #8aa95c;
+  outline-offset:2px;
+}
+
+dialog {
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 25px 80px rgba(0,0,0,.25);
+}
+
+dialog h2 {
+  font-size:27px;
+  line-height:1.2;
+}
+
+dialog h3 {
+  border-bottom:1px solid #e4e9df;
+  padding-bottom:10px;
+  margin-top:26px;
+}
+
+.menuitem {
+  padding:15px 0;
+}
+
+.links a {
+  border-radius:12px;
+  line-height:1.5;
+}
+
+.notice {
+  border-left:4px solid #8aa95c;
+}
+
+@media(max-width:600px) {
+  .hero {
+    padding:45px 20px;
+  }
+
+  .hero h1 {
+    font-size:42px;
+  }
+
+  .card {
+    border-radius:20px;
+  }
+
+  .photo {
+    height:225px;
+  }
+
+  .card-body {
+    padding:20px;
+  }
+
+  dialog {
+    width:calc(100% - 20px);
+    padding:22px;
+    max-height:88vh;
+  }
+
+  .links a {
+    min-height:44px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html {
+    scroll-behavior:auto;
+  }
+
+  .card,.btn,.details {
+    transition:none;
+  }
+}
+</style>
+
 :root{--green:#183c32;--lime:#d8ed92;--paper:#f7f8f2;--muted:#69736c}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--green);font-family:Arial,sans-serif}
